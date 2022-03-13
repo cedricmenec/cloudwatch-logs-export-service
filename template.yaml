@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Export CloudWatch Logs Group events
+Globals:
+  Function:
+    Timeout: 60
+
+Resources:
+
+  # TODO: Create the SQS queue as part of this template
+
+  ExportCloudWatchLogGroup:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src
+      Handler: handlers.lambda_handler
+      Runtime: python3.9
+      Policies:
+        - CloudWatchLogsReadOnlyAccess
+        - AWSLambdaSQSQueueExecutionRole
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-east-1:647217338613:cw-logs-group-export-queue
+            BatchSize: 1
+            Enabled: true
