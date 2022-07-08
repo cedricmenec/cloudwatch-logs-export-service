@@ -2,20 +2,29 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   Export CloudWatch Logs Group events
-Globals:
-  Function:
-    Timeout: 60
+
+Parameters:
+  OperationQueueName:
+      Type: String
+      Description: Operation Queue Name
+      Default: "cw-logs-group-export-queue"
 
 Resources:
 
-  # TODO: Create the SQS queue as part of this template
+  OperationQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref OperationQueueName
+      VisibilityTimeout: 1800
 
-  ExportCloudWatchLogGroup:
+
+  ExportCloudWatchLogGroupFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src
       Handler: handlers.lambda_handler
       Runtime: python3.9
+      Timeout: 600
       Policies:
         - CloudWatchLogsReadOnlyAccess
         - AWSLambdaSQSQueueExecutionRole
@@ -23,6 +32,35 @@ Resources:
         SQSEvent:
           Type: SQS
           Properties:
-            Queue: arn:aws:sqs:us-east-1:647217338613:cw-logs-group-export-queue
+            Queue: !GetAtt OperationQueue.Arn
             BatchSize: 1
             Enabled: true
+
+  OperationQueueSQSPolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref OperationQueue
+      PolicyDocument:
+        Statement:
+  #          - Sid: "__owner_statement"
+  #            Action:
+  #              - "SQS:*"
+  #            Effect: "Allow"
+  #            Resource: !GetAtt OperationQueue.Arn
+  #            Principal:
+  #              AWS: !Sub
+  #                - "arn:aws:iam::${AccountId}:root"
+  #                - AccountId: "AWS::AccountId"
+
+          - Effect: "Allow"
+            Action:
+              - "SQS:ChangeMessageVisibility"
+              - "SQS:DeleteMessage"
+              - "SQS:ReceiveMessage"
+            Resource: !GetAtt OperationQueue.Arn
+            Principal:
+              AWS:
+                - 647217338613
+
+#              !GetAtt ExportCloudWatchLogGroupFunction.Arn
