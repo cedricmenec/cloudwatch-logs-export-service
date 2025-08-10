@@ -3,7 +3,7 @@
         {
             "messageId": "1ef030ae-dfb2-4070-9772-a5ac6fb2dea9",
             "receiptHandle": "AQEBC504dbD2/uy2rx6QRK2dxBOXxZvZFgJXDfgcXVdSyZzQZneKfDv0ZyPSH9+vDOjmCZXvVGg7vdePZscWfVtteOvucET9s4cwCGVFNjrfVoZBp6PAt9oISOIpf+6x0pUK3tCTmvqsIxIUV8Uc3Dc5DE5R4qlYNK78vbb8gnin/jFHz6y1XXr8sEHKfYl6FjB5EFCebefShBvrCnulOoUVFgEChAYQZ/0sA0fVoFzqP1akgPaueDfU4kX8y4AqQ1x8H/oNYbJJjWITDVst7bYFiQVRrPv0HMs4yj3Hx9Vy2IRLtU48OrLxZ4oZqNDTyaYs5NJ4RtMaJz2t/s8Lgvos0Q7N+M2kcw5zrfBs1a0LhlLl38kUSFFktZ0v+gmCei794bM0y2qVjb8LotrqxKDwhA==",
-            "body": "{\"logGroupName\": \"cl-cedric01-ecs/ecs/container/cm01-gcr-dev\", \"fromTime\": \"2022-03-13T00:00:00.000\"}",
+            "body": "{\"logGroupName\": \"cl-cedric01-ecs/ecs/container/cm01-gcr-dev\", \"fromTime\": \"2022-07-01T00:00:00.000\"}",
             "attributes": {
                 "ApproximateReceiveCount": "1",
                 "SentTimestamp": "1647176739802",

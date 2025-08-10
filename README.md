@@ -11,4 +11,4 @@ sam build
 
 ### Deploy on AWS (development only)
 
-sam sync --stack-name test-cm-0001
+sam sync --stack-name test-cm-0001 --watch
